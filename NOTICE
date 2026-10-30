@@ -1,0 +1,11 @@
+HSL-3D
+
+This repository contains code derived from Microsoft TRELLIS.2:
+https://github.com/microsoft/TRELLIS.2
+
+The original Microsoft copyright notice and MIT License are retained in
+the repository's LICENSE file.
+
+Third-party components and external dependencies remain subject to their
+own license terms. See THIRD_PARTY_NOTICES.md for their sources, roles, and
+license information.

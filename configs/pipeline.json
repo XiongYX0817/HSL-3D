@@ -1,0 +1,78 @@
+{
+    "name": "HSL3DImageTo3DPipeline",
+    "args": {
+        "models": {
+            "octree_structure_flow_model": "PATH_TO_OCTREE_STRUCTURE_FLOW_MODEL",
+            "octree_structure_decoder": "PATH_TO_OCTREE_STRUCTURE_DECODER",
+            "multiscale_shape_flow_model": "PATH_TO_MULTISCALE_SHAPE_FLOW_MODEL",
+            "multiscale_shape_decoder": "PATH_TO_STAGE2_VAE_DECODER"
+        },
+        "stage1_sampler": {
+            "name": "FlowEulerGuidanceIntervalSampler",
+            "args": {
+                "sigma_min": 1e-5
+            },
+            "params": {
+                "steps": 12,
+                "guidance_strength": 7.5,
+                "guidance_rescale": 0.7,
+                "guidance_interval": [0.6, 1.0],
+                "rescale_t": 5.0
+            }
+        },
+        "stage2_sampler": {
+            "name": "FlowEulerGuidanceIntervalSampler",
+            "args": {
+                "sigma_min": 1e-5
+            },
+            "params": {
+                "steps": 12,
+                "guidance_strength": 7.5,
+                "guidance_rescale": 0.5,
+                "guidance_interval": [0.6, 1.0],
+                "rescale_t": 3.0
+            }
+        },
+        "stage1_normalization": null,
+        "stage2_normalization": {
+            "format": "multiscale_shape_latent_level_stats",
+            "level_format": "zero_based_coarse_to_fine",
+            "levels": {
+                "0": {
+                    "grid_resolution": 16,
+                    "mean": [],
+                    "std": []
+                },
+                "1": {
+                    "grid_resolution": 32,
+                    "mean": [],
+                    "std": []
+                },
+                "2": {
+                    "grid_resolution": 64,
+                    "mean": [],
+                    "std": []
+                }
+            }
+        },
+        "image_cond_model": {
+            "name": "DinoV3FeatureExtractor",
+            "args": {
+                "model_name": "facebook/dinov3-vitl16-pretrain-lvd1689m"
+            }
+        },
+        "rembg_model": {
+            "name": "BiRefNet",
+            "args": {
+                "model_name": "briaai/RMBG-2.0"
+            }
+        },
+        "low_vram": true,
+        "stage1_cond_resolution": 512,
+        "stage2_cond_resolution": 1024,
+        "octree_base_resolution": 16,
+        "octree_num_levels": 3,
+        "structure_threshold": 0.0,
+        "max_num_tokens": 32768
+    }
+}
